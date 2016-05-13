@@ -1,0 +1,9 @@
+---
+slug: :mikutter_play_music
+depends:
+  mikutter: 3.3.8
+  plugin: []
+version: '1.0'
+author: yuzumone
+name: mikutter_play_music
+description: Google Play Music Desktop Playerの再生情報を取得
