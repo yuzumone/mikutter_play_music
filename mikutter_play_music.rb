@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 
-require 'json'
-
 Plugin.create(:mikutter_play_music) do
 
-  @path = "#{Dir.home}/.config/Google\sPlay\sMusic\sDesktop\sPlayer/json_store/playback.json"
+  defevent :play_music_info
   @last_title = nil
 
-  def music_info
-    json = open(@path) do |io|
+  on_boot do
+    Plugin.call(:play_music_info)
+    next_music
+  end
+
+  on_play_music_info do
+    path = "#{Dir.home}/.config/Google\sPlay\sMusic\sDesktop\sPlayer/json_store/playback.json"
+    json = open(path) do |io|
       JSON.load(io)
     end
     
@@ -25,11 +29,8 @@ Plugin.create(:mikutter_play_music) do
 
   def next_music
     Reserver.new(60) {
-      music_info
+      Plugin.call(:play_music_info)
       next_music
     }
   end
-
-  music_info
-  next_music
 end
